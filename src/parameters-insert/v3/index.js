@@ -54,14 +54,18 @@ traverse(ast, {
       const newNode = template.expression(
         `console.log("filename: (${line}, ${column})")`
       )();
-      // 为新创建的节点设置isNew=true属性，因为traverse会重复遍历新创建的节点，但是新创建的节点并不需要重复遍历
+      // 为新创建的节点设置isNew=true属性，
+      // 因为traverse会重复遍历新创建的节点，但是新创建的节点并不需要重复遍历
       newNode.isNew = true;
 
-      // 如果该节点的父节点是JSXElement节点
+      // 如果该节点的父节点是 JSXElement 节点
       if (path.findParent((path) => path.isJSXElement())) {
+        // 则将节点替换为数组格式
         path.replaceWith(types.arrayExpression([newNode, path.node]));
+        // 跳过接下来的子节点的遍历
         path.skip();
       } else {
+        // 如果父节点不是 JSXElement 节点，则在当前节点的基础之前插入新建节点
         path.insertBefore(newNode);
       }
     }
