@@ -1,0 +1,14 @@
+{
+    "root": {
+        "data": {
+            "id": "cdc90wx2yjk0",
+            "created": 1628234686954,
+            "text": "tranverse 的 visitor 和 path",
+            "priority": null
+        },
+        "children": []
+    },
+    "template": "default",
+    "theme": "fresh-blue",
+    "version": "1.4.43"
+}
