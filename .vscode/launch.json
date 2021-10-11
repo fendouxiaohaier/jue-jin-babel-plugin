@@ -11,7 +11,7 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
-      "program": "${workspaceFolder}/src/exercize-auto-track/index.js"
+      "program": "${workspaceFolder}/src/exercize-linter/no-func-reassign-lint-entry.js"
     }
   ]
 }
