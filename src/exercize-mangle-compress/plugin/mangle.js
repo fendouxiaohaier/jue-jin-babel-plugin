@@ -45,6 +45,8 @@ const mangle = declare((api, options, dirname) => {
   | StaticBlock
   | TSModuleBlock;
        */
+
+  
       // 批量遍历声明语句集合
       Scopable: {
         exit(path, state) {
