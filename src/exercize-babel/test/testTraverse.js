@@ -11,10 +11,19 @@ const ast = parser.parse(sourceCode, {
 });
 
 traverse(ast, {
-  Identifier(node) {
-    // test 将字面量变为'bbbbbbbb'
-    node.name = "bbbbbbbb";
-  },
+  Identifier: {
+    enter(path) {
+      // test 将字面量变为'bbbbbbbb'
+      path.node.name = "bbbbbbbb";
+    },
+    exit(path) {
+      let curPath = path;
+      while(curPath) {
+        console.log(JSON.stringify(path.node, undefined, 4));
+        curPath = curPath.parentPath
+      }
+    }
+  }
 });
 
 console.log(JSON.stringify(ast, undefined, 4));
