@@ -1,5 +1,5 @@
 const types = require("../util/type");
-
+const Scope = require("../util/Scope");
 class NodePath {
   /**
    * Path节点
@@ -24,6 +24,26 @@ class NodePath {
     });
   }
 
+  // 在获取scope的时候才去创建scope，避免一开始就创建scope，暂用内存
+  get scope() {
+    if (this.__scope) {
+      return this.__scope;
+    }
+    const isBlock = this.isBlock();
+    const parentScope = this.parentPath && this.parentPath.scope;
+    return (this.__scope = isBlock
+      ? new Scope(parentScope, this)
+      : parentScope);
+  }
+
+  /**
+   * 在type文件中声明了哪些是Block类型
+   * @returns
+   */
+  isBlock() {
+    return types.astDefinitionsMap.get(this.node.type).isBlock;
+  }
+
   // 用node替换当前节点
   replaceWith(node) {
     // 当前节点对应的path对应的listKey存在，则表示此节点对应的父节点的key对应的值是一个数组
@@ -37,7 +57,9 @@ class NodePath {
   //与replaceWith相似
   remove() {
     // 当前节点对应的path对应的listKey存在，则表示此节点对应的父节点的key对应的值是一个数组
-    if (this.listKey) {
+    // 这里为什么是 !== undefined， 因为listKey可能为0，如果没有 !== undefined 这个判断，则当listKey===0时，
+    // 会进入到else中，则改变了parent的key对应的数据结构，会影响后序遍历
+    if (this.listKey !== undefined) {
       this.parent[this.key].splice(this.listKey, 1);
     } else {
       this.parent[this.key] = null;
@@ -82,8 +104,8 @@ class NodePath {
    * @param {*} visitors
    */
   traverse(visitors) {
-    const traverse = require("../src/traverse/index");
-    const definition = types.visitorKeys.get(this.node.type);
+    const { traverse } = require("../src/traverse/index");
+    const definition = types.astDefinitionsMap.get(this.node.type);
 
     if (definition.visitor) {
       definition.visitor.forEach((key) => {
@@ -91,10 +113,10 @@ class NodePath {
         if (Array.isArray(prop)) {
           // 如果该属性是数组
           prop.forEach((childNode, index) => {
-            traverse(childNode, visitors, this.node, this);
+            traverse(childNode, visitors, this.node, this, key, index);
           });
         } else {
-          traverse(prop, visitors, this.node, this);
+          traverse(prop, visitors, this.node, this, key, index);
         }
       });
     }

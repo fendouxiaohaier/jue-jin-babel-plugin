@@ -5,6 +5,7 @@ const astDefinitionsMap = new Map();
 
 astDefinitionsMap.set("Program", {
   visitor: ["body"],
+  isBlock: true, // 表示拥有作用域，在获取scope的时候需要判断
 });
 astDefinitionsMap.set("VariableDeclaration", {
   visitor: ["declarations"],
@@ -16,11 +17,11 @@ astDefinitionsMap.set("Identifier", {});
 astDefinitionsMap.set("NumericLiteral", {});
 astDefinitionsMap.set("FunctionDeclaration", {
   visitor: ["id", "params", "body"],
-  isBlock: true, // 拥有作用域，在获取scope的时候需要判断
+  isBlock: true, // 表示拥有作用域，在获取scope的时候需要判断
 });
 astDefinitionsMap.set("BlockStatement", {
   visitor: ["body"],
-  isBlock: true, // 拥有作用域，在获取scope的时候需要判断
+  isBlock: true, // 表示拥有作用域，在获取scope的时候需要判断
 });
 astDefinitionsMap.set("ReturnStatement", {
   visitor: ["argument"],
