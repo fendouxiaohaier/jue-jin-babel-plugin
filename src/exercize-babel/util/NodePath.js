@@ -77,7 +77,7 @@ class NodePath {
 
     // 不符合添加继续遍历
     while (curPath && !callback(curPath)) {
-      curNode = curPath.parentPath;
+      curPath = curPath.parentPath;
     }
 
     // 符合条件 返回
@@ -93,7 +93,7 @@ class NodePath {
 
     // 不符合添加继续遍历
     while (curPath && !callback(curPath)) {
-      curNode = curPath.parentPath;
+      curPath = curPath.parentPath;
     }
 
     // 符合条件 返回
@@ -118,7 +118,7 @@ class NodePath {
             traverse(childNode, visitors, this.node, this, key, index);
           });
         } else {
-          traverse(prop, visitors, this.node, this, key, index);
+          traverse(prop, visitors, this.node, this, key);
         }
       });
     }
