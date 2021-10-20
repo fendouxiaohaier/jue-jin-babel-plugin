@@ -1,5 +1,7 @@
 const types = require("../util/type");
 const Scope = require("../util/Scope");
+const generate = require('../util/Printer');
+
 class NodePath {
   /**
    * Path节点
@@ -47,7 +49,7 @@ class NodePath {
   // 用node替换当前节点
   replaceWith(node) {
     // 当前节点对应的path对应的listKey存在，则表示此节点对应的父节点的key对应的值是一个数组
-    if (this.listKey) {
+    if (this.listKey !== undefined) {
       this.parent[this.key].splice(this.listKey, 1, node);
     } else {
       this.parent[this.key] = node;
@@ -132,7 +134,7 @@ class NodePath {
 
   toString() {
     // 需要配合 generate 包
-    // return generate(this.node).code;
+    return generate(this.node).code;
   }
 }
 
