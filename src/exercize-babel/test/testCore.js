@@ -92,23 +92,23 @@ const { code, map } = transformSync(sourceCode, {
     plugins: ["literal"],
   },
   fileName: "foo.js",
-  // plugins: [
-  //   [
-  //     plugin1,
-  //     {
-  //       replaceName: "ddddd",
-  //     },
-  //   ],
-  // ],
-  presets: [
-    // [preset1],
+  plugins: [
     [
-      preset2,
+      plugin1,
       {
-        target: "chrome",
+        replaceName: "ddddd",
       },
     ],
   ],
+  // presets: [
+  //   [preset1],
+  //   [
+  //     preset2,
+  //     {
+  //       target: "chrome",
+  //     },
+  //   ],
+  // ],
 });
 
 console.log(code);

@@ -5,12 +5,19 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "测试 babel cli",
+      "program": "${workspaceFolder}/src/exercize-babel/src/cli/index.js", //运行的代码
+      "request": "launch",
+      "type": "node",
+      "args": ["./input/*.js", "--out-dir", "./dist", "--watch"], //命令行参数
+      "cwd": "${workspaceFolder}/src/exercize-babel/test" //运行的目录
+    },
+
+    {
       "type": "pwa-node",
       "request": "launch",
       "name": "Launch Program",
-      "skipFiles": [
-        "<node_internals>/**"
-      ],
+      "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/exercize-babel/test/testPrinter.js"
     }
   ]
